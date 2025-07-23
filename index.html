@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Mario Inspired Platformer</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <h1>Super Mario Inspired Platformer</h1>
+
+    <div class="game-container">
+        <canvas id="gameCanvas"></canvas>
+        <div class="game-ui">
+            <span>Score: <span id="score">0</span></span>
+            <span>Lives: <span id="lives">3</span></span>
+            <span>Level: <span id="level">1</span></span>
+        </div>
+        <div id="gameMessage" class="game-message">
+            <p id="messageText"></p>
+            <button id="startButton">Start Game</button>
+        </div>
+    </div>
+
+    <div class="instructions">
+        <p>Use <strong>Left/Right Arrow Keys</strong> to move and <strong>Spacebar</strong> to jump.</p>
+        <p>Press <strong>Z</strong> to throw fireballs (if you have the power-up).</p>
+        <p>Collect coins, stomp enemies, and reach the flagpole!</p>
+    </div>
+
+    <!-- Mobile Controls -->
+    <div class="mobile-controls">
+        <div class="control-group">
+            <button id="leftBtn" class="control-btn">◀</button>
+            <button id="rightBtn" class="control-btn">▶</button>
+        </div>
+        <div class="control-group">
+            <button id="actionBtn" class="control-btn action-btn">🔥 Throw</button>
+            <button id="jumpBtn" class="control-btn jump-btn">⬆ Jump</button>
+        </div>
+    </div>
+
+    <script type="module" src="js/game.js"></script>
+</body>
+</html>
