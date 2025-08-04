@@ -1,4 +1,19 @@
-/* Basic styling for the body and game container */
+/*
+ * Revised CSS for a fully responsive game layout.
+ *
+ * This code uses a mobile-first approach and media queries
+ * to ensure the game container, UI, and controls adapt
+ * gracefully to various screen sizes and orientations.
+ */
+
+/* ================== Base & Mobile-First Styles ================== */
+
+/* Global box-sizing for consistent layout calculations */
+* {
+    box-sizing: border-box;
+}
+
+/* Base styles for the body and game container wrapper */
 body {
     margin: 0;
     overflow: hidden; /* Prevent scrollbars */
@@ -8,33 +23,43 @@ body {
     align-items: center;
     min-height: 100vh; /* Full viewport height */
     background-color: #87CEEB; /* Sky blue background */
-    font-family: 'Inter', sans-serif; /* Recommended font */
+    font-family: 'Inter', sans-serif;
     color: #333;
     padding: 20px;
-    box-sizing: border-box;
 }
 
 /* Game container to hold canvas and UI */
 .game-container {
     position: relative;
-    border: 5px solid #4A2C2A; /* Dark brown border for a retro feel */
-    border-radius: 10px; /* Rounded corners for the container */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Soft shadow */
-    background-color: #ADD8E6; /* Lighter sky blue for the game area */
+    border: 5px solid #4A2C2A;
+    border-radius: 15px; /* Slightly larger rounded corners */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    background-color: #ADD8E6;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    /* Core responsive changes:
+     * Use viewport units to ensure the container fits the screen.
+     * This makes it resize dynamically.
+     */
+    width: 90vw;
+    height: 90vh;
+    max-width: 600px; /* Optional: prevent it from becoming too large on desktops */
+    max-height: 600px;
+    aspect-ratio: 1 / 1; /* Maintain a square aspect ratio */
 }
 
-/* Canvas styling */
+/* Canvas styling - now fills its parent container */
 canvas {
     display: block;
-    background-color: #ADD8E6; /* Lighter sky blue for the game area */
-    border-radius: 5px; /* Slightly rounded inner corners */
+    background-color: #ADD8E6;
+    border-radius: 10px; /* Rounded inner corners */
+    width: 100%;
+    height: 100%;
 }
 
-/* Game UI (score, lives, level) */
+/* Game UI */
 .game-ui {
     position: absolute;
     top: 10px;
@@ -42,7 +67,7 @@ canvas {
     right: 10px;
     display: flex;
     justify-content: space-between;
-    font-size: 1.2em;
+    font-size: clamp(1em, 2vw, 1.2em); /* Fluid font size */
     font-weight: bold;
     color: #4A2C2A;
     text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5);
@@ -51,7 +76,7 @@ canvas {
     border-radius: 5px;
 }
 
-/* Game messages (start, game over, level complete) */
+/* Game messages (e.g., "Game Over") */
 .game-message {
     position: absolute;
     top: 50%;
@@ -62,15 +87,15 @@ canvas {
     padding: 30px 40px;
     border-radius: 15px;
     text-align: center;
-    font-size: 2em;
+    font-size: clamp(1.5em, 5vw, 2.5em); /* Fluid font size for messages */
     font-weight: bold;
     z-index: 10;
-    display: none; /* Hidden by default */
+    display: none;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
 .game-message button {
-    background-color: #4CAF50; /* Green button */
+    background-color: #4CAF50;
     color: white;
     padding: 15px 30px;
     margin-top: 20px;
@@ -79,24 +104,13 @@ canvas {
     font-size: 1.2em;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.1s ease;
-    box-shadow: 0 4px #388E3C; /* Darker green shadow */
+    box-shadow: 0 4px #388E3C;
 }
 
-.game-message button:hover {
-    background-color: #45a049;
-    transform: translateY(-2px);
-}
-
-.game-message button:active {
-    background-color: #3e8e41;
-    transform: translateY(2px);
-    box-shadow: 0 2px #388E3C;
-}
-
-/* General instructions */
 .instructions {
-    background-color: #FFFACD; /* Light yellow background */
-    border: 2px solid #DAA520; /* Goldenrod border */
+    display: none; /* Hidden on mobile by default */
+    background-color: #FFFACD;
+    border: 2px solid #DAA520;
     border-radius: 8px;
     padding: 15px 25px;
     text-align: center;
@@ -108,29 +122,27 @@ canvas {
     margin-top: 20px;
 }
 
-.instructions strong {
-    color: #8B0000; /* Dark red for emphasis */
-}
-
 h1 {
+    display: none; /* Hide main title on mobile portrait to save space */
     color: #4A2C2A;
     text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.7);
     margin-bottom: 15px;
-    font-size: 2.5em;
+    font-size: clamp(2em, 5vw, 3em);
     text-align: center;
 }
 
-/* Mobile Controls Styling */
+/* ================== Mobile Controls (Portrait & Landscape) ================== */
+
 .mobile-controls {
-    display: none; /* Hidden by default on desktop */
-    position: fixed; /* Fixed position relative to viewport */
+    display: flex; /* Always show controls on mobile */
+    position: fixed;
     bottom: 20px;
     left: 20px;
     right: 20px;
-    z-index: 20; /* Above other elements */
+    z-index: 20;
     justify-content: space-between;
-    align-items: flex-end; /* Align buttons to the bottom */
-    gap: 10px; /* Space between button groups */
+    align-items: flex-end;
+    gap: 10px;
 }
 
 .control-group {
@@ -139,70 +151,90 @@ h1 {
 }
 
 .control-btn {
-    background-color: #333; /* Dark background */
+    background-color: #333;
     color: white;
     padding: 15px 20px;
     border: 2px solid #555;
-    border-radius: 50%; /* Make them circular */
+    border-radius: 50%;
     font-size: 1.5em;
     font-weight: bold;
     cursor: pointer;
-    user-select: none; /* Prevent text selection on touch */
+    user-select: none;
     transition: background-color 0.2s ease, transform 0.1s ease;
-    box-shadow: 0 5px #111; /* 3D effect */
-    width: 60px; /* Fixed width for circular shape */
-    height: 60px; /* Fixed height for circular shape */
+    box-shadow: 0 5px #111;
+    width: 60px;
+    height: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.control-btn:active {
-    background-color: #555;
-    transform: translateY(3px);
-    box-shadow: 0 2px #111;
-}
-
-.jump-btn {
-    background-color: #007BFF; /* Blue for jump */
-    border-color: #0056b3;
-    box-shadow: 0 5px #0056b3;
-    font-size: 1.2em; /* Smaller text for "Jump" */
+.jump-btn, .action-btn {
     width: 80px;
     height: 80px;
-    border-radius: 50%;
 }
 
-.jump-btn:active {
-    background-color: #0056b3;
-    box-shadow: 0 2px #0056b3;
-}
+/* ================== Media Queries for Desktop & Landscape ================== */
 
-.action-btn {
-    background-color: #FF4500; /* Orange-red for action */
-    border-color: #CC3700;
-    box-shadow: 0 5px #CC3700;
-    font-size: 1.2em; /* Smaller text for "Throw" */
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-}
-
-.action-btn:active {
-    background-color: #CC3700;
-    box-shadow: 0 2px #CC3700;
-}
-
-
-/* Responsive adjustments for mobile controls */
-@media (max-width: 768px) {
-    .mobile-controls {
-        display: flex; /* Show controls on smaller screens */
+/* --- Desktop Styles (min-width: 769px) --- */
+@media (min-width: 769px) {
+    .game-container {
+        width: 600px;
+        height: 600px;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
     }
+
     .instructions {
-        display: none; /* Hide keyboard instructions on mobile */
+        display: block; /* Show instructions on desktop */
     }
+
+    h1 {
+        display: block; /* Show title on desktop */
+    }
+
+    .mobile-controls {
+        display: none; /* Hide controls on desktop */
+    }
+
     body {
-        padding-bottom: 120px; /* Make space for controls at the bottom */
+        padding: 40px;
+        flex-direction: column;
+    }
+}
+
+/* --- Landscape Orientation (mobile & tablet) --- */
+@media (orientation: landscape) and (max-width: 768px) {
+    body {
+        flex-direction: row; /* Arrange elements horizontally */
+        justify-content: space-around;
+        align-items: center;
+        padding: 10px;
+    }
+
+    .game-container {
+        /* Adjust size to better fit the wider screen */
+        width: 75vh;
+        height: 75vh;
+        /* Re-center it */
+        margin: 0;
+    }
+
+    h1 {
+        display: none; /* Keep title hidden to save space */
+    }
+
+    .mobile-controls {
+        position: static; /* Remove fixed position in landscape */
+        flex-direction: column; /* Stack controls vertically */
+        justify-content: center;
+        align-items: center;
+        width: auto;
+        height: 100%;
+        padding: 0;
+        gap: 20px;
+    }
+    
+    .control-group {
+        flex-direction: column; /* Stack controls vertically */
     }
 }
